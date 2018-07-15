@@ -294,83 +294,70 @@ public class MainActivity extends AppCompatActivity {
     public void removeLast()
     {
         String s;
-        String r;
-        String rb;
-        String b;
-        s = edtCalculo.getText().toString();
-        b = resultado.toString();
+        String r = "";
 
+        s = edtCalculo.getText().toString();
         if (searchFunc(s))
         {
             if (s.charAt(s.length()-1) == 'z')
             {
-                r = s.substring(0, s.length()- 4);
-                if (resultado.length() != 0)
+                r = s.substring(0, s.length()-4);
+                if (resultado.length() == 4)
                 {
-                    resultado.delete(resultado.length()-4, resultado.length()-1);
-                }
-                if (r.length() == 0)
-                {
-                    edtCalculo.setText("");
-
+                    resultado.deleteCharAt(resultado.length()-1);
+                    resultado.deleteCharAt(resultado.length()-1);
+                    resultado.deleteCharAt(resultado.length()-1);
+                    resultado.deleteCharAt(resultado.length()-1);
                 }else{
-                    String k = r.substring(0, r.length()-1);
-                    edtCalculo.setText(k);
-                    if (resultado.length() != 0)
+                    if (resultado.length() > 4)
                     {
+                        resultado.deleteCharAt(resultado.length()-1);
+                        resultado.deleteCharAt(resultado.length()-1);
+                        resultado.deleteCharAt(resultado.length()-1);
+                        resultado.deleteCharAt(resultado.length()-1);
                         resultado.deleteCharAt(resultado.length()-1);
                     }
                 }
-            }else{
-                if (s.charAt(s.length()-1) == 'n' || s.charAt(s.length()) == 's' || s.charAt(s.length()) == 'g')
+            }
+            if (s.charAt(s.length()-1) == 'n' || s.charAt(s.length()) == 's' || s.charAt(s.length()) == 'g')
+            {
+                r = s.substring(0, s.length()-3);
+                if (resultado.length() == 3)
                 {
-                    r = s.substring(0, s.length()- 3);
-                    if (resultado.length() != 0)
+                    resultado.deleteCharAt(resultado.length()-1);
+                    resultado.deleteCharAt(resultado.length()-1);
+                    resultado.deleteCharAt(resultado.length()-1);
+                }else{
+                    if (resultado.length() > 3)
                     {
-                        resultado.delete(resultado.length()-3, resultado.length()-1);
-                    }
-
-                    if (r.length() == 0)
-                    {
-                        edtCalculo.setText("");
-                    }else{
-                        String k = r.substring(0, r.length()-1);
-                        edtCalculo.setText(k);
-                        if (resultado.length() != 0)
-                        {
-                            while (resultado.length() > 0)
-                            {
-                                resultado.deleteCharAt(resultado.length()-1);
-                            }
-                        }
+                        resultado.deleteCharAt(resultado.length()-1);
+                        resultado.deleteCharAt(resultado.length()-1);
+                        resultado.deleteCharAt(resultado.length()-1);
+                        resultado.deleteCharAt(resultado.length()-1);
                     }
                 }
             }
         }else{
-            if ((!s.equals("0")) && (edtCalculo.getText().length() > 1))
+            if (s.length() > 0)
             {
                 r = s.substring(0, s.length()-1);
-                if (resultado.length() > 1)
+                if (resultado.length() == 1)
                 {
-                    resultado.deleteCharAt(resultado.length()-1);
-                    resultado.deleteCharAt(resultado.length()-1);
+                    resultado.deleteCharAt(0);
                 }else{
-                    if (resultado.length() == 1)
+                    if (resultado.length() > 1)
                     {
-                        resultado.deleteCharAt(0);
-                    }
-                }
-                edtCalculo.setText(r);
-            }else{
-                edtCalculo.setText("");
-                if (resultado.length() != 0)
-                {
-                    while (resultado.length() > 0)
-                    {
+                        resultado.deleteCharAt(resultado.length()-1);
                         resultado.deleteCharAt(resultado.length()-1);
                     }
                 }
             }
+            if (s.length() == 0)
+            {
+                r = "";
+                resultado.setLength(0);
+            }
+            edtCalculo.setText(r);
         }
     }
     public void arrangeLines()
