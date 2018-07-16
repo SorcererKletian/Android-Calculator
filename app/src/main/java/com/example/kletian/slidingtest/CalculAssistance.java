@@ -1,6 +1,5 @@
 package com.example.kletian.slidingtest;
 
-import java.text.DecimalFormat;
 import java.util.HashMap;
 import java.util.Stack;
 import java.util.regex.Pattern;
@@ -10,7 +9,7 @@ import java.util.regex.Pattern;
  */
 public class CalculAssistance {
 
-    public static Stack<String> operatorStack = new Stack<String>();
+    public static Stack<String> operatorStack = new Stack<>();
     public String result;
 
     public CalculAssistance()
@@ -105,19 +104,11 @@ public class CalculAssistance {
     // That's because there are operations that requires only 1 number, like the ones described in the method
     public static boolean oneNumberOperation(String token)
     {
-        if ((opMap.containsKey(token) && !token.equals("sin") && !token.equals("cos") && !token.equals("tan") && !token.equals("Raiz") && !token.equals("!") && !token.equals("log") && !token.equals("%")))
-        {
-            return false;
-        }
-        return true;
+        return !(opMap.containsKey(token) && !token.equals("sin") && !token.equals("cos") && !token.equals("tan") && !token.equals("Raiz") && !token.equals("!") && !token.equals("log") && !token.equals("%"));
     }
     public static boolean isPercent(String token)
     {
-        if (opMap.containsKey(token) && token.equals("%"))
-        {
-            return true;
-        }
-        return false;
+        return opMap.containsKey(token) && token.equals("%");
     }
 
     public static boolean isNumber(String n)
@@ -129,29 +120,17 @@ public class CalculAssistance {
 
     public static boolean returnHigher(String tokenAtual, String tokenPilha)
     {
-        if (opMap.containsKey(tokenAtual) && opMap.get(tokenAtual).precedenceNum > opMap.get(tokenPilha).precedenceNum)
-        {
-            return true;
-        }
-        return false;
+        return opMap.containsKey(tokenAtual) && opMap.get(tokenAtual).precedenceNum > opMap.get(tokenPilha).precedenceNum;
     }
 
     public static boolean returnEqualPrecedence(String tokenAtual, String tokenPilha)
     {
-        if (opMap.containsKey(tokenAtual) && opMap.get(tokenAtual).precedenceNum == opMap.get(tokenPilha).precedenceNum)
-        {
-            return true;
-        }
-        return false;
+        return opMap.containsKey(tokenAtual) && opMap.get(tokenAtual).precedenceNum == opMap.get(tokenPilha).precedenceNum;
     }
 
     public static boolean isFunction(String k)
     {
-        if (opMap.containsKey(k) && opMap.get(k).precedenceNum == 6)
-        {
-            return true;
-        }
-        return false;
+        return opMap.containsKey(k) && opMap.get(k).precedenceNum == 6;
     }
     public static double calculaFatorial(double d)
     {
@@ -208,10 +187,10 @@ public class CalculAssistance {
     }
     public static String calcSY(String s)
     {
-        s.trim();
+        s = s.trim();
         double[] numeros = new double[2];
 
-        Stack<String> newStack = new Stack<String>();
+        Stack<String> newStack = new Stack<>();
         for (String token : s.split(" "))
         {
             if (isNumber(token))
@@ -240,7 +219,7 @@ public class CalculAssistance {
                 }
             }
         }
-        return newStack.pop().toString();
+        return newStack.pop();
     }
 
     //
@@ -252,7 +231,7 @@ public class CalculAssistance {
     public static String shuntingYard(String s)
     {
         StringBuilder sb = new StringBuilder();
-        s.trim();
+        s = s.trim();
         for (String k : s.split(" "))
         {
             if (isNumber(k))
@@ -292,7 +271,7 @@ public class CalculAssistance {
         }
         while(!operatorStack.isEmpty())
         {
-            if (operatorStack.equals("("))
+            if (operatorStack.peek().equals("("))
             {
                 operatorStack.pop();
             }
