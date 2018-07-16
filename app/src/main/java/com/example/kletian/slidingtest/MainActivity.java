@@ -80,6 +80,10 @@ public class MainActivity extends AppCompatActivity {
         return m.find();
     }
 
+    public boolean charisNumber(char c) {
+        return c == '0' || c == '1' || c == '2' || c == '3' || c == '4' || c == '5' || c == '6' || c == '7' || c == '8' || c == '9';
+    }
+
     //method for clicking button. All the buttons on the calculator share this same method,
     //so every information on how to behave when a button is clicked is described here
     public void button_Click(View v) {
@@ -302,9 +306,22 @@ public class MainActivity extends AppCompatActivity {
                 if (resultado.length() == 1) {
                     resultado.deleteCharAt(0);
                 } else {
-                    if (resultado.length() > 1) {
+                    if (resultado.length() > 1 && resultado.length() - 1 == '.') {
                         resultado.deleteCharAt(resultado.length() - 1);
-                        resultado.deleteCharAt(resultado.length() - 1);
+
+                    } else {
+                        if (resultado.length() > 1 && resultado.length() - 2 == '.') {
+                            resultado.deleteCharAt(resultado.length() - 1);
+                        } else {
+                            if (resultado.length() > 1 && (charisNumber(resultado.charAt(resultado.length() - 1)) && charisNumber(resultado.charAt(resultado.length() - 2)))) {
+                                resultado.deleteCharAt(resultado.length() - 1);
+                            } else {
+                                if (resultado.length() > 1 && (charisNumber(resultado.charAt(resultado.length() - 1)) && resultado.charAt(resultado.length() - 2) == ' ')) {
+                                    resultado.deleteCharAt(resultado.length() - 1);
+                                    resultado.deleteCharAt(resultado.length() - 1);
+                                }
+                            }
+                        }
                     }
                 }
             }
@@ -336,6 +353,7 @@ public class MainActivity extends AppCompatActivity {
 
     //* Method for searching difference in parenthesis count that could return calc error with shunting yard
     //* used only as a debugger
+    /*
     public void changeTextView(int a, int b) {
         StringBuilder sb = new StringBuilder();
         sb.append(a);
@@ -345,6 +363,7 @@ public class MainActivity extends AppCompatActivity {
         textView.setText(sb.toString());
         sb.delete(0, sb.length());
     }
+    */
 
     //override for saving the content of variables used for shunting yard
     //without this, on rotating the screen  all the information stored are lost and there'll be errors

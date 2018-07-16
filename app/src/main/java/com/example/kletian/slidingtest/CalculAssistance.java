@@ -12,38 +12,47 @@ public class CalculAssistance {
     public static Stack<String> operatorStack = new Stack<>();
     public String result;
 
-    public CalculAssistance()
-    {
+    public CalculAssistance() {
 
     }
-    public void setResult(String s)
-    {
+
+    public void setResult(String s) {
         this.result = calcSY(shuntingYard(s));
     }
-    public String getResult()
-    {
+
+    public String getResult() {
         return this.result;
     }
-    private enum associativity{
+
+    private enum associativity {
         right,
         left
     }
-    public static associativity getTokenAssociativity(precedence p)
-    {
-        switch (p)
-        {
-            case SOM: return associativity.left;
-            case MENOS: return associativity.left;
-            case MULTIPLICA: return associativity.left;
-            case DIVIDE: return associativity.left;
-            case POT: return associativity.right;
-            case PERCENT: return associativity.left;
-            case RAIZ: return associativity.left;
-            case FATORIAL: return associativity.right;
-            default: return associativity.left;
+
+    public static associativity getTokenAssociativity(precedence p) {
+        switch (p) {
+            case SOM:
+                return associativity.left;
+            case MENOS:
+                return associativity.left;
+            case MULTIPLICA:
+                return associativity.left;
+            case DIVIDE:
+                return associativity.left;
+            case POT:
+                return associativity.right;
+            case PERCENT:
+                return associativity.left;
+            case RAIZ:
+                return associativity.left;
+            case FATORIAL:
+                return associativity.right;
+            default:
+                return associativity.left;
         }
     }
-    private enum precedence{
+
+    private enum precedence {
         SOM(1),
         MENOS(1),
         DIVIDE(2),
@@ -56,33 +65,46 @@ public class CalculAssistance {
         OP(7);
 
         private int precedenceNum;
-        precedence(int precedenceNum)
-        {
+
+        precedence(int precedenceNum) {
             this.precedenceNum = precedenceNum;
         }
     }
-    public static precedence getToken(String symbol)
-    {
-        switch (symbol)
-        {
-            case "+": return precedence.SOM;
-            case "-": return precedence.MENOS;
-            case "*": return precedence.MULTIPLICA;
-            case "/": return precedence.DIVIDE;
-            case "^": return precedence.POT;
-            case "%": return precedence.PERCENT;
-            case "Raiz": return precedence.RAIZ;
-            case "sin": return precedence.FUNC;
-            case "cos": return precedence.FUNC;
-            case "tan": return precedence.FUNC;
-            case "max": return precedence.FUNC;
-            case "log": return precedence.FUNC;
-            case "!": return precedence.FATORIAL;
-            default: return precedence.OP;
+
+    public static precedence getToken(String symbol) {
+        switch (symbol) {
+            case "+":
+                return precedence.SOM;
+            case "-":
+                return precedence.MENOS;
+            case "*":
+                return precedence.MULTIPLICA;
+            case "/":
+                return precedence.DIVIDE;
+            case "^":
+                return precedence.POT;
+            case "%":
+                return precedence.PERCENT;
+            case "Raiz":
+                return precedence.RAIZ;
+            case "sin":
+                return precedence.FUNC;
+            case "cos":
+                return precedence.FUNC;
+            case "tan":
+                return precedence.FUNC;
+            case "max":
+                return precedence.FUNC;
+            case "log":
+                return precedence.FUNC;
+            case "!":
+                return precedence.FATORIAL;
+            default:
+                return precedence.OP;
         }
     }
-    public static HashMap<String, precedence> opMap = new HashMap<String, precedence>()
-    {{
+
+    public static HashMap<String, precedence> opMap = new HashMap<String, precedence>() {{
         put("+", precedence.SOM);
         put("-", precedence.MENOS);
         put("*", precedence.MULTIPLICA);
@@ -102,51 +124,44 @@ public class CalculAssistance {
     //
     // There are 2 methods for performing numeric operations. One receives 2 double type parameters, and the other receives only 1
     // That's because there are operations that requires only 1 number, like the ones described in the method
-    public static boolean oneNumberOperation(String token)
-    {
+    public static boolean oneNumberOperation(String token) {
         return !(opMap.containsKey(token) && !token.equals("sin") && !token.equals("cos") && !token.equals("tan") && !token.equals("Raiz") && !token.equals("!") && !token.equals("log") && !token.equals("%"));
     }
-    public static boolean isPercent(String token)
-    {
+
+    public static boolean isPercent(String token) {
         return opMap.containsKey(token) && token.equals("%");
     }
 
-    public static boolean isNumber(String n)
-    {
+    public static boolean isNumber(String n) {
         Pattern p = Pattern.compile("[0-9]");
         java.util.regex.Matcher m = p.matcher(n);
         return m.find();
     }
 
-    public static boolean returnHigher(String tokenAtual, String tokenPilha)
-    {
+    public static boolean returnHigher(String tokenAtual, String tokenPilha) {
         return opMap.containsKey(tokenAtual) && opMap.get(tokenAtual).precedenceNum > opMap.get(tokenPilha).precedenceNum;
     }
 
-    public static boolean returnEqualPrecedence(String tokenAtual, String tokenPilha)
-    {
+    public static boolean returnEqualPrecedence(String tokenAtual, String tokenPilha) {
         return opMap.containsKey(tokenAtual) && opMap.get(tokenAtual).precedenceNum == opMap.get(tokenPilha).precedenceNum;
     }
 
-    public static boolean isFunction(String k)
-    {
+    public static boolean isFunction(String k) {
         return opMap.containsKey(k) && opMap.get(k).precedenceNum == 6;
     }
-    public static double calculaFatorial(double d)
-    {
+
+    public static double calculaFatorial(double d) {
         double num = d;
-        while ( d > 1)
-        {
+        while (d > 1) {
             num = num * (d - 1);
             d--;
         }
         return num;
 
     }
-    public static double calc(double first, double second, String operation)
-    {
-        switch (operation)
-        {
+
+    public static double calc(double first, double second, String operation) {
+        switch (operation) {
             case "+":
                 return first + second;
             case "-":
@@ -158,17 +173,16 @@ public class CalculAssistance {
             case "^":
                 return Math.pow(second, first);
             case "%":
-                return (second*first)/100;
+                return (second * first) / 100;
             case "max":
                 return Math.max(first, second);
             default:
                 return 1;
         }
     }
-    public static double calc(double first, String operation)
-    {
-        switch (operation)
-        {
+
+    public static double calc(double first, String operation) {
+        switch (operation) {
             case "sin":
                 return Math.sin(Math.toRadians(first));
             case "cos":
@@ -185,33 +199,28 @@ public class CalculAssistance {
                 return 0;
         }
     }
-    public static String calcSY(String s)
-    {
+
+    public static String calcSY(String s) {
         s = s.trim();
         double[] numeros = new double[2];
 
         Stack<String> newStack = new Stack<>();
-        for (String token : s.split(" "))
-        {
-            if (isNumber(token))
-            {
+        for (String token : s.split(" ")) {
+            if (isNumber(token)) {
                 newStack.push(token);
-            }else{
-                if (opMap.containsKey(token) && !oneNumberOperation(token))
-                {
+            } else {
+                if (opMap.containsKey(token) && !oneNumberOperation(token)) {
                     numeros[0] = Double.parseDouble(newStack.pop());
                     numeros[1] = Double.parseDouble(newStack.pop());
                     newStack.push(Double.toString(calc(numeros[0], numeros[1], token)));
-                }else{
-                    if (opMap.containsKey(token) && isPercent(token))
-                    {
+                } else {
+                    if (opMap.containsKey(token) && isPercent(token)) {
                         numeros[0] = Double.parseDouble(newStack.pop());
                         numeros[1] = Double.parseDouble(newStack.pop());
                         newStack.push(Double.toString(calc(numeros[0], numeros[1], token)));
                         newStack.push(Double.toString(numeros[0]));
-                    }else{
-                        if (opMap.containsKey(token) && oneNumberOperation(token))
-                        {
+                    } else {
+                        if (opMap.containsKey(token) && oneNumberOperation(token)) {
                             numeros[0] = Double.parseDouble(newStack.pop());
                             newStack.push(Double.toString(calc(numeros[0], token)));
                         }
@@ -228,39 +237,31 @@ public class CalculAssistance {
     // found on https://en.wikipedia.org/wiki/Shunting-yard_algorithm
     //
     //
-    public static String shuntingYard(String s)
-    {
+    public static String shuntingYard(String s) {
         StringBuilder sb = new StringBuilder();
         s = s.trim();
-        for (String k : s.split(" "))
-        {
-            if (isNumber(k))
-            {
+        for (String k : s.split(" ")) {
+            if (isNumber(k)) {
                 sb.append(k);
                 sb.append(" ");
-            }else{
-                if (opMap.containsKey(k) && isFunction(k))
-                {
+            } else {
+                if (opMap.containsKey(k) && isFunction(k)) {
                     operatorStack.push(k);
-                }else{
-                    if (opMap.containsKey(k))
-                    {
+                } else {
+                    if (opMap.containsKey(k)) {
                         while (!operatorStack.isEmpty() && isFunction(operatorStack.peek())
                                 || !operatorStack.isEmpty() && returnHigher(operatorStack.peek(), k)
-                                || !operatorStack.isEmpty() && returnEqualPrecedence(operatorStack.peek(), k) && getTokenAssociativity(getToken(operatorStack.peek())) == associativity.left)
-                        {
+                                || !operatorStack.isEmpty() && returnEqualPrecedence(operatorStack.peek(), k) && getTokenAssociativity(getToken(operatorStack.peek())) == associativity.left) {
                             sb.append(operatorStack.pop());
                             sb.append(" ");
-                        }operatorStack.push(k);
-                    }
-                    if (k.equals("("))
-                    {
+                        }
                         operatorStack.push(k);
                     }
-                    if (k.equals(")"))
-                    {
-                        while (!operatorStack.peek().equals("("))
-                        {
+                    if (k.equals("(")) {
+                        operatorStack.push(k);
+                    }
+                    if (k.equals(")")) {
+                        while (!operatorStack.peek().equals("(")) {
                             sb.append(operatorStack.pop());
                             sb.append(" ");
                         }
@@ -269,10 +270,8 @@ public class CalculAssistance {
                 }
             }
         }
-        while(!operatorStack.isEmpty())
-        {
-            if (operatorStack.peek().equals("("))
-            {
+        while (!operatorStack.isEmpty()) {
+            if (operatorStack.peek().equals("(")) {
                 operatorStack.pop();
             }
             sb.append(operatorStack.pop());
