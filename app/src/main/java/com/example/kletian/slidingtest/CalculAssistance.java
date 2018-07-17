@@ -173,7 +173,7 @@ public class CalculAssistance {
             case "^":
                 return Math.pow(second, first);
             case "%":
-                return (second * first) / 100;
+                return (first * second) / 100;
             case "max":
                 return Math.max(first, second);
             default:
@@ -217,8 +217,8 @@ public class CalculAssistance {
                     if (opMap.containsKey(token) && isPercent(token)) {
                         numeros[0] = Double.parseDouble(newStack.pop());
                         numeros[1] = Double.parseDouble(newStack.pop());
+                        newStack.push(Double.toString(numeros[1]));
                         newStack.push(Double.toString(calc(numeros[0], numeros[1], token)));
-                        newStack.push(Double.toString(numeros[0]));
                     } else {
                         if (opMap.containsKey(token) && oneNumberOperation(token)) {
                             numeros[0] = Double.parseDouble(newStack.pop());
