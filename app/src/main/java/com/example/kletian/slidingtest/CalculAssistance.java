@@ -5,7 +5,7 @@ import java.util.Stack;
 import java.util.regex.Pattern;
 
 /**
- * Created by Kletian on 13/07/2018.
+ * Created by Marcelo Ponciano on 13/07/2018.
  */
 public class CalculAssistance {
 
